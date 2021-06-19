@@ -1,26 +1,26 @@
 package com.honsoft.springbasic.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactoryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.Ordered;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.web.HttpRequestHandler;
 
-public class SimpleController implements Controller , ApplicationContextAware{
-	
+public class MyHttpRequestHandler implements HttpRequestHandler {
+
 	private ApplicationContext context;
-	
-	@Override
-	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+	@Override
+	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		Map<String, Object> allBeans = BeanFactoryUtils.beansOfTypeIncludingAncestors(context, Object.class, true,
 				false);
 		if (!allBeans.isEmpty()) {
@@ -36,15 +36,12 @@ public class SimpleController implements Controller , ApplicationContextAware{
 			}
 		}
 		
-		ModelAndView model = new ModelAndView("Greeting");
-		model.addObject("message", "Dinesh Madhwal");
-		return model;
-	}
+		PrintWriter writer = response.getWriter();
+		writer.write("response from MyHttpRequestHandler, uri: " + request.getRequestURI());
 
-	@Override
-	public void setApplicationContext(ApplicationContext context) throws BeansException {
+	}
+	
+	public void setContext(ApplicationContext context) {
 		this.context = context;
-		System.out.println("SimpleController called.");
-		
 	}
 }
