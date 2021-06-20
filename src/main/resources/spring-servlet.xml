@@ -29,8 +29,7 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	<mvc:default-servlet-handler />
-	<context:component-scan base-package="com.honsoft.springbasic.controller"/>
+	<context:component-scan base-package="com.honsoft.springbasic" name-generator="com.honsoft.springbasic.config.UniqueNameGenerator"/>
 	<mvc:annotation-driven></mvc:annotation-driven>
 	
 	<bean id="/example"
@@ -39,8 +38,7 @@
 		class="com.honsoft.springbasic.controller.SimpleController"></bean>
 	<bean
 		class="com.honsoft.springbasic.controller.ApplicationContextAwareBean"></bean>
-	<bean
-		class="com.honsoft.springbasic.controller.MyBeanPostProcessor"></bean>
+
 	<bean id="multiController"
 		class="com.honsoft.springbasic.controller.MultiController"></bean>
 	<bean
@@ -49,6 +47,7 @@
 			<props>
 				<prop key="/multipath">multiController</prop>
 				<prop key="/pathmulti">multiController</prop>
+				<prop key="/h2-console">h2Console</prop>
 			</props>
 		</property>
 	</bean>
@@ -66,5 +65,9 @@
 				class="com.honsoft.springbasic.controller.ExampleInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
-
+	
+	<bean class="org.springframework.web.servlet.handler.SimpleServletHandlerAdapter"></bean>
+	
+	<bean id="h2Console" class="org.h2.server.web.WebServlet"></bean>
+	
 </beans>
