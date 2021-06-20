@@ -30,7 +30,9 @@
 		<property name="suffix" value=".jsp" />
 	</bean>
 	<mvc:default-servlet-handler />
-
+	<context:component-scan base-package="com.honsoft.springbasic.controller"/>
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
 	<bean id="/example"
 		class="com.honsoft.springbasic.controller.MyHttpRequestHandler"></bean>
 	<bean id="/simple"
@@ -39,7 +41,6 @@
 		class="com.honsoft.springbasic.controller.ApplicationContextAwareBean"></bean>
 	<bean
 		class="com.honsoft.springbasic.controller.MyBeanPostProcessor"></bean>
-	<bean class="com.honsoft.springbasic.controller.TestController"></bean>
 	<bean id="multiController"
 		class="com.honsoft.springbasic.controller.MultiController"></bean>
 	<bean
